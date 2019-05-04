@@ -7,19 +7,19 @@ from ..task_queue import RedisTaskQueue
 
 class BaseSpider(scrapy.Spider):
     name="base_spider"
-    task_queue=RedisTaskQueue()
+    task_queue=RedisTaskQueue()#提取要爬去的网站的名字，和该网站的带爬取的url
 
     custom_settings={
         "DOWNLOAD_DELAY": 0.8,
         "ITEM_PIPELINES":{
-            "proxypool.pipelines.RedisRawProxyPipeline": 200,
+            "proxypool.pipelines.RedisRawProxyPipeline": 200,#存储爬去到的代理ip
         }
     }
 
     def __init__(self):
         super().__init__()
         self.parser={
-            "page": self.parse_page,
+            "page": self.parse_page,#不同的url（网站返回的数据类型）使用不同的解析函数
             "json": self.parse_json,
         }
 
@@ -39,7 +39,7 @@ class BaseSpider(scrapy.Spider):
         parse_rule=task.get("parse_rule")
         func=self.parser[parser_type]
         if parse_rule:
-            return func(response, parse_rule)# **parse_rule)
+            return func(response, parse_rule)# **parse_rule)在TASK中记录了发去的规则，只要使用响应的函数，取用resposne.xpath()取提取即可
         else:
             return func(response)
 
