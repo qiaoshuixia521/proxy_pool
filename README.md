@@ -2,7 +2,9 @@
 源项目地址：https://github.com/TangliziGit/proxypool
 使用框架scrapy
 ##################################################
-
+参考的提示：
+先看base_spider.py文件；
+然后看一下提取规则（rules.py），重点在不同页面不同提取规则的编写；
 
 
 # How to run it
